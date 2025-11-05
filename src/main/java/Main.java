@@ -3,13 +3,9 @@ import model.Venta;
 import repository.BicicletaRepository;
 import repository.VentaRepository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Scanner;
 
-import db.Conexion;
 
 public class Main {
     public static void main(String[] args) {
@@ -46,7 +42,7 @@ public class Main {
                         biciRepo.agregar(bici);
                         System.out.println("Bicicleta agregada.");
                         break;
-                        
+
                     case 2:
                         System.out.print("ID venta: ");
                         int idVenta = scanner.nextInt();

@@ -2,10 +2,7 @@ package repository;
 
 import db.Conexion;
 import model.Bicicleta;
-
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BicicletaRepository {
 
