@@ -4,8 +4,6 @@ import db.Conexion;
 import model.Venta;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class VentaRepository {
 
@@ -20,19 +18,30 @@ public class VentaRepository {
         }
     }
 
-    public List<Venta> listar() throws SQLException {
-        List<Venta> lista = new ArrayList<>();
+    public void listar() {
         String sql = "SELECT * FROM ventas";
-        try (Connection conn = Conexion.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
+        try {
+            Connection conn = Conexion.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            System.out.println("Ventas registradas:");
             while (rs.next()) {
-                lista.add(new Venta(
-                    rs.getInt("id"),
-                    rs.getInt("id_bicicleta"),
-                    rs.getInt("cantidad"),
-                    rs.getString("fecha")
-                ));
+                int id = rs.getInt("id");
+                int idBicicleta = rs.getInt("id_bicicleta");
+                int cantidad = rs.getInt("cantidad");
+                String fecha = rs.getString("fecha");
+
+                System.out.println("ID: " + id + " Bicicleta ID: " + idBicicleta + " Cantidad: " + cantidad + " Fecha: " + fecha);
             }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error al listar ventas: " + e.getMessage());
         }
-        return lista;
     }
 }

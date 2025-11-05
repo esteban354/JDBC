@@ -1,7 +1,5 @@
 package model;
 
-import java.time.LocalDate;
-
 public class Venta {
     private int id;
     private int idBicicleta;
@@ -15,9 +13,19 @@ public class Venta {
         this.fecha = fecha;
     }
 
-    // Getters
-    public int getId() { return id; }
-    public int getIdBicicleta() { return idBicicleta; }
-    public int getCantidad() { return cantidad; }
-    public String getFecha() { return fecha; }
+    public int getId() {
+         return id; 
+        }
+        
+    public int getIdBicicleta() {
+         return idBicicleta; 
+        }
+
+    public int getCantidad() {
+         return cantidad; 
+        }
+
+    public String getFecha() {
+         return fecha; 
+        }
 }

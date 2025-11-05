@@ -15,12 +15,27 @@ public class Bicicleta {
         this.stock = stock;
     }
 
-    // Getters y setters
-    public int getId() { return id; }
-    public String getMarca() { return marca; }
-    public String getModelo() { return modelo; }
-    public double getPrecio() { return precio; }
-    public int getStock() { return stock; }
+    public int getId() { 
+        return id; 
+    }
 
-    public void setStock(int stock) { this.stock = stock; }
+    public String getMarca() {
+         return marca; 
+        }
+
+    public String getModelo() {
+         return modelo; 
+        }
+
+    public double getPrecio() {
+         return precio; 
+        }
+
+    public int getStock() {
+         return stock; 
+        }
+
+    public void setStock(int stock) {
+         this.stock = stock; 
+        }
 }

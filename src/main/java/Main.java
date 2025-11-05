@@ -2,8 +2,14 @@ import model.Bicicleta;
 import model.Venta;
 import repository.BicicletaRepository;
 import repository.VentaRepository;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
+
+import db.Conexion;
 
 public class Main {
     public static void main(String[] args) {
@@ -40,7 +46,7 @@ public class Main {
                         biciRepo.agregar(bici);
                         System.out.println("Bicicleta agregada.");
                         break;
-
+                        
                     case 2:
                         System.out.print("ID venta: ");
                         int idVenta = scanner.nextInt();
@@ -48,34 +54,23 @@ public class Main {
                         int idBici = scanner.nextInt();
                         System.out.print("Cantidad vendida: ");
                         int cantidad = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.print("Ingrese la fecha: ");
-                        String fecha = scanner.next();
+                        String fecha = scanner.nextLine();
 
-
-                        Venta venta = new Venta(idVenta, idBici, cantidad,fecha);
+                        Venta venta = new Venta(idVenta, idBici, cantidad, fecha);
                         ventaRepo.registrar(venta);
-
-                        List<Bicicleta> lista = biciRepo.listar();
-                        for (Bicicleta b : lista) {
-                            if (b.getId() == idBici) {
-                                int nuevoStock = b.getStock() - cantidad;
-                                biciRepo.actualizarStock(idBici, nuevoStock);
-                                break;
-                            }
-                        }
-
-                        System.out.println("Venta registrada y stock actualizado.");
                         break;
 
                     case 3:
-                        List<Bicicleta> inventario = biciRepo.listar();
-                        System.out.println("\n Inventario ");
-                        for (Bicicleta b : inventario) {
-                            System.out.println("ID: " + b.getId() + " | " + b.getMarca() + " " + b.getModelo() +
-                                    " | Precio: $" + b.getPrecio() + " | Stock: " + b.getStock());
+                        System.out.println("\nInventario:");
+                        try {
+                            biciRepo.listar(); 
+                        } catch (SQLException e) {
+                            System.out.println("Error al mostrar inventario: " + e.getMessage());
                         }
                         break;
-
+                    
                     case 4:
                         System.out.println("Saliendo del sistema...");
                         scanner.close();
