@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Conexion {
     
-    private static final String URL = "jdbc:mysql://localhost:3307/clara"; /*Cambien el puerto a 3306 para que ustedes le funcione*/
+    private static final String URL = "jdbc:mysql://localhost:3307/bicicletas_mike"; 
     private static final String USER = "root";
     private static final String PASSWORD = "";
 

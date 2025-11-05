@@ -1,60 +1,92 @@
+import model.Bicicleta;
+import model.Venta;
+import repository.BicicletaRepository;
+import repository.VentaRepository;
+import java.util.List;
 import java.util.Scanner;
-
-import model.Usuarios;
-import repository.UsuariosRepository;
 
 public class Main {
     public static void main(String[] args) {
+        BicicletaRepository biciRepo = new BicicletaRepository();
+        VentaRepository ventaRepo = new VentaRepository();
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Que deseas hacer \n1. Ingresar usuario \n2. Listar usuario \n3. Eliminar un usuario \n4. Actualizar un usuario\n");
-        int opcion = scanner.nextInt();
-        UsuariosRepository usuariosRepository = new UsuariosRepository();
 
-        switch (opcion) {
-            case 1:
-                System.out.print("Ingrese el nombre: ");
-                String nombre = scanner.next();
+        try {
+            while (true) {
+                System.out.println("\nMenú Inventario Bicicletas");
+                System.out.println("1. Agregar bicicleta");
+                System.out.println("2. Registrar venta");
+                System.out.println("3. Ver inventario");
+                System.out.println("4. Salir");
+                System.out.print("Seleccione una opción: ");
+                int opcion = scanner.nextInt();
+                scanner.nextLine();
 
-                System.out.print("Ingrese la edad: ");
-                Long edad = scanner.nextLong();
+                switch (opcion) {
+                    case 1:
+                        System.out.print("ID: ");
+                        int id = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Marca: ");
+                        String marca = scanner.nextLine();
+                        System.out.print("Modelo: ");
+                        String modelo = scanner.nextLine();
+                        System.out.print("Precio: ");
+                        double precio = scanner.nextDouble();
+                        System.out.print("Stock: ");
+                        int stock = scanner.nextInt();
 
-                Usuarios usuario = new Usuarios(nombre, edad);
-                usuariosRepository.insertarUsuario(usuario);
-            break;
-        
-            case 2:
-                System.out.println("Lista de los usuarios:");
-                usuariosRepository.listarUsuarios();
-            break;
+                        Bicicleta bici = new Bicicleta(id, marca, modelo, precio, stock);
+                        biciRepo.agregar(bici);
+                        System.out.println("Bicicleta agregada.");
+                        break;
 
-            case 3:
-                System.out.print("Ingrese el id del usuario que desea eliminar: ");
-                Long id = scanner.nextLong();
+                    case 2:
+                        System.out.print("ID venta: ");
+                        int idVenta = scanner.nextInt();
+                        System.out.print("ID bicicleta: ");
+                        int idBici = scanner.nextInt();
+                        System.out.print("Cantidad vendida: ");
+                        int cantidad = scanner.nextInt();
+                        System.out.print("Ingrese la fecha: ");
+                        String fecha = scanner.next();
 
-                Usuarios usuarioEliminado = new Usuarios(id);
-                usuariosRepository.borrarUsuario(usuarioEliminado);
-                usuariosRepository.listarUsuarios();
-            break;
 
-            case 4:
-                System.out.print("Ingrese el id del usuario: ");
-                Long idActualizar = scanner.nextLong();
+                        Venta venta = new Venta(idVenta, idBici, cantidad,fecha);
+                        ventaRepo.registrar(venta);
 
-                System.out.print("Ingrese el nombre: ");
-                String nuevoNombre = scanner.next();
+                        List<Bicicleta> lista = biciRepo.listar();
+                        for (Bicicleta b : lista) {
+                            if (b.getId() == idBici) {
+                                int nuevoStock = b.getStock() - cantidad;
+                                biciRepo.actualizarStock(idBici, nuevoStock);
+                                break;
+                            }
+                        }
 
-                System.out.print("Ingrese la edad: ");
-                Long nuevaEdad = scanner.nextLong();
+                        System.out.println("Venta registrada y stock actualizado.");
+                        break;
 
-                Usuarios usuarioActualizado = new Usuarios(idActualizar, nuevoNombre, nuevaEdad);
-                usuariosRepository.actualizarUsuario(usuarioActualizado);
-                usuariosRepository.listarUsuarios();
-            break;
-            
-            default:
-                System.out.println("Opcion incorrecta ");
-            break;
+                    case 3:
+                        List<Bicicleta> inventario = biciRepo.listar();
+                        System.out.println("\n Inventario ");
+                        for (Bicicleta b : inventario) {
+                            System.out.println("ID: " + b.getId() + " | " + b.getMarca() + " " + b.getModelo() +
+                                    " | Precio: $" + b.getPrecio() + " | Stock: " + b.getStock());
+                        }
+                        break;
+
+                    case 4:
+                        System.out.println("Saliendo del sistema...");
+                        scanner.close();
+                        return;
+
+                    default:
+                        System.out.println("Opción inválida.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    scanner.close();
     }
 }
